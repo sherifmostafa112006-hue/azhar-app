@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= subject.name %> - الفرقة الثالثة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/style.css">
+</head><body>
+<header class="header"><div class="header-inner">
+<div class="logo-area"><div class="logo-icon">🕌</div><div class="logo-text"><h1><%= subject.name %></h1><span><%= subject.subtitle %></span></div></div>
+<a href="/" class="btn btn-outline" style="color:white;border-color:white;">العودة للرئيسية</a></div></header>
+<main class="container" style="margin-top:30px;">
+<div style="background:white;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(0,0,0,0.07);">
+<div class="curriculum-box"><%= subject.curriculum ? subject.curriculum.replace(/\n/g, '<br>') : 'لم يُحدد المنهج بعد.' %></div>
+<h3 style="margin:20px 0 15px;"><i class="fas fa-paperclip" style="color:var(--accent);margin-left:10px;"></i> الملفات والملخصات</h3>
+<% if (files && files.length > 0) { %>
+<% files.forEach(file => { %>
+<a href="<%= file.url || '#' %>" class="file-row" <%= file.url ? 'target="_blank"' : '' %>>
+<% let iconClass = 'f-other'; let iconFa = 'fa-file';
+if (file.type === 'PDF') { iconClass = 'f-pdf'; iconFa = 'fa-file-pdf'; }
+else if (file.type === 'Word') { iconClass = 'f-doc'; iconFa = 'fa-file-word'; }
+else if (file.type === 'PowerPoint') { iconClass = 'f-ppt'; iconFa = 'fa-file-powerpoint'; }
+else if (file.type === 'فيديو') { iconClass = 'f-video'; iconFa = 'fa-video'; }
+else if (file.type === 'صوت') { iconClass = 'f-audio'; iconFa = 'fa-headphones'; }
+else if (file.type === 'رابط') { iconClass = 'f-link'; iconFa = 'fa-link'; } %>
+<div class="f-icon <%= iconClass %>"><i class="fas <%= iconFa %>"></i></div>
+<div class="f-info"><div class="f-name"><%= file.name %></div><div class="f-meta"><%= file.type %><%= file.url ? ' · رابط خارجي' : '' %></div></div>
+<div class="f-dl"><i class="fas fa-<%= file.url ? 'external-link-alt' : 'info-circle' %>"></i></div></a>
+<% }) } else { %>
+<p style="text-align:center;color:#999;">لا توجد ملفات مرفوعة حالياً.</p><% } %>
+</div></main></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعديل المواد - لوحة التحكم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/style.css">
+<script>
+function addFileRow(btn) {
+  const c = btn.parentElement.querySelector('.files-edit-area');
+  const r = document.createElement('div');
+  r.className = 'file-edit-row';
+  r.innerHTML = '<input type="text" name="fileNames[]" placeholder="اسم الملف" required> ' +
+    '<select name="fileTypes[]"><option value="PDF">PDF</option><option value="Word">Word</option><option value="PowerPoint">PowerPoint</option><option value="فيديو">فيديو</option><option value="صوت">صوت</option><option value="رابط">رابط</option><option value="آخر">آخر</option></select> ' +
+    '<input type="url" name="fileUrls[]" placeholder="رابط الملف (اختياري)"> ' +
+    '<button type="button" class="btn-remove" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>';
+  c.appendChild(r);
+}
+</script>
+</head><body>
+<div class="edit-container"><h1>⚙️ تعديل المواد الدراسية</h1>
+<p style="text-align:center;margin-bottom:30px;">مرحباً <strong><%= user.username %></strong> | <a href="/logout">تسجيل الخروج</a></p>
+<% if (locals.success) { %><div style="background:#e8f5e9;color:#2e7d32;padding:10px;border-radius:8px;margin-bottom:20px;text-align:center;">✅ تم الحفظ بنجاح</div><% } %>
+<% subjects.forEach(subject => { %>
+<div class="subject-edit-block">
+<h2><i class="<%= subject.icon %>" style="color:<%= subject.color %>;margin-left:10px;"></i> <%= subject.name %></h2>
+<form method="POST" action="/edit/<%= subject.id %>">
+<label style="font-weight:bold;">تفاصيل المنهج:</label>
+<textarea name="curriculum"><%= subject.curriculum || '' %></textarea>
+<label style="font-weight:bold;display:block;margin:15px 0 10px;">الملفات المرفوعة:</label>
+<div class="files-edit-area">
+<% (subject.files || []).forEach(file => { %>
+<div class="file-edit-row">
+<input type="text" name="fileNames[]" value="<%= file.name %>" required>
+<select name="fileTypes[]">
+<option value="PDF" <%= file.type==='PDF'?'selected':'' %>>PDF</option>
+<option value="Word" <%= file.type==='Word'?'selected':'' %>>Word</option>
+<option value="PowerPoint" <%= file.type==='PowerPoint'?'selected':'' %>>PowerPoint</option>
+<option value="فيديو" <%= file.type==='فيديو'?'selected':'' %>>فيديو</option>
+<option value="صوت" <%= file.type==='صوت'?'selected':'' %>>صوت</option>
+<option value="رابط" <%= file.type==='رابط'?'selected':'' %>>رابط</option>
+<option value="آخر" <%= file.type==='آخر'?'selected':'' %>>آخر</option>
+</select>
+<input type="url" name="fileUrls[]" value="<%= file.url || '' %>" placeholder="رابط الملف">
+<button type="button" class="btn-remove" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>
+</div>
+<% }) %>
+</div>
+<button type="button" class="btn btn-outline" onclick="addFileRow(this)" style="margin-top:8px;"><i class="fas fa-plus"></i> إضافة ملف</button>
+<div style="margin-top:20px;"><button type="submit" class="btn btn-primary">💾 حفظ التغييرات</button></div>
+</form></div>
+<% }) %>
+<div style="text-align:center;margin-top:30px;"><a href="/" class="btn btn-outline">العودة للموقع</a></div></div>
+</body></html>

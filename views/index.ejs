@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الفرقة الثالثة لغة عربية - جامعة الأزهر المنصورة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/style.css">
+</head><body>
+<header class="header"><div class="header-inner">
+<div class="logo-area"><div class="logo-icon">🕌</div><div class="logo-text"><h1>الفرقة الثالثة - لغة عربية</h1><span>جامعة الأزهر الشريف - فرع المنصورة</span></div></div>
+<div class="header-badge"><i class="fas fa-book-open"></i> 8 مواد دراسية</div></div></header>
+<section class="hero"><h2>📚 كل موادك في مكان واحد</h2><div class="line"></div><p>تصفح المناهج والملخصات والملفات الخاصة بكل مادة.</p></section>
+<main class="container"><div class="subjects-grid">
+<% subjects.forEach(subject => { %>
+<a href="/subject/<%= subject.id %>" class="subject-card <%= subject.card_class %>">
+<div class="icon-wrap"><i class="<%= subject.icon %>"></i></div>
+<h3><%= subject.name %></h3><p class="hint"><%= subject.subtitle %></p>
+<div class="card-footer"><span class="badge">📎 <%= subject.fileCount %> ملفات</span><span class="arrow"><i class="fas fa-arrow-left"></i></span></div>
+</a>
+<% }) %>
+</div></main>
+<% if (locals.user && locals.user.is_admin) { %>
+<div style="text-align:center;margin:20px;">
+<a href="/edit" class="btn btn-primary">⚙️ لوحة التحكم</a>
+<a href="/logout" class="btn btn-outline">تسجيل الخروج</a></div>
+<% } %>
+</body></html>
